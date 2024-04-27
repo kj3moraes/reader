@@ -370,3 +370,6 @@ graphData.json
 people.json
 *messages*.json
 *treeHacks*.json
+
+**/data*
+**/pnpm-lock.yaml
