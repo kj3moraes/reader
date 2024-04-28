@@ -8,6 +8,21 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 pydantic = "^2.7.1"
+transformers = "^4.40.1"
+torch = "^2.3.0"
+datasets = "^2.19.0"
+matplotlib = "^3.8.4"
+ipykernel = "^6.29.4"
+hf-transfer = "^0.1.6"
+seaborn = "^0.13.2"
+scikit-learn = "^1.4.2"
+vectorizers = "^0.2.1"
+pandas = "^2.2.2"
+dask = {extras = ["dataframe"], version = "^2024.4.2"}
+tensorflow = "^2.16.1"
+tensorflow-hub = "^0.16.1"
+sentence-transformers = "^2.7.0"
+umap-learn = {extras = ["plot"], version = "^0.5.6"}
 
 
 [build-system]
