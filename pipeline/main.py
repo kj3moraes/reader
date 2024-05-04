@@ -1,35 +1,33 @@
-import anthropic
-from dotenv import load_dotenv
-import os
-from utils import clean_md
+import pandas as pd
+from pathlib import Path
+from utils import collect_all_markdown_files, process_file, query_summary_engine
 
-load_dotenv()
+DATA_PATH = Path("./.data")
 
-ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
+# Collect all the markdown files
+markdown_file_paths = collect_all_markdown_files(DATA_PATH)
+data = []
 
-client = anthropic.Anthropic(
-    api_key=ANTHROPIC_API_KEY,
-)
+# Process them and store them into a list of tuples
+print(f"Started processing {len(markdown_file_paths)} markdown files")
+for file_path in markdown_file_paths:
+    metadata, content = process_file(file_path)
+    
+    author_name = metadata.get("Author Name", "No Name")
+    publication_name = metadata.get("Publication Name", "No Pub Name")
+    post_date = metadata.get("Post Date")
+    title = metadata.get("Title", "No Title")
+    subtitle = metadata.get("Subtitle", "No Title")
+    content = title + subtitle + "\n\n" + content
+    data.append((title, subtitle, author_name, publication_name, post_date, content))
 
-with open("./.data/test.md", "r+") as infile:
-    markdown_text = infile.read()
+# Save the dataframe locally
+df = pd.DataFrame(data, columns=["Title", "Subtitle", "Author", "Publication", "Post Date", "Content"])
+df.to_csv("./.data/presummary.csv")
+print(f"Saved the presummary dataframe with {len(df.index)} entries")
 
-cleaned = clean_md(markdown_text)
-
-message = client.messages.create(
-    model="claude-3-haiku-20240307",
-    max_tokens=1024,
-    system="""  You are a topic identification bot. You are tasked with reading a text and coming up
-                with topics that are discussed in the text or abstract concepts. These should be short and terse.
-                If there any authors referenced, add them as well. Answer in JSON with 2 keys, "topics" and "references" like so
-                {
-                    "topics": []
-                    "references": []
-                }
-                """,
-    messages=[
-        {"role": "user", "content": f"The text is provided below \n{cleaned}"}
-    ]
-)
-
-print(message.content[0].text)
+# Iterate through all of the content and generate summaries
+print("Attempting to summarize the entire dataset")
+df["Summary"] = df["Content"].apply(lambda x: query_summary_engine(x))
+df.to_csv("./.data/train.csv")
+print("Completed dataset generation")
