@@ -1,5 +1,6 @@
 import pandas as pd
 from pathlib import Path
+from tqdm import tqdm
 from utils import collect_all_markdown_files, process_file, query_summary_engine
 
 DATA_PATH = Path("./.data")
@@ -27,7 +28,8 @@ df.to_csv("./.data/presummary.csv")
 print(f"Saved the presummary dataframe with {len(df.index)} entries")
 
 # Iterate through all of the content and generate summaries
+tqdm.pandas()
 print("Attempting to summarize the entire dataset")
-df["Summary"] = df["Content"].apply(lambda x: query_summary_engine(x))
+df["Summary"] = df["Content"].progress_apply(lambda x: query_summary_engine(x))
 df.to_csv("./.data/train.csv")
 print("Completed dataset generation")

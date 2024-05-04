@@ -1,6 +1,7 @@
 import re
 import os
 from typing import Tuple
+import json
 import anthropic
 from ast import literal_eval
 from dotenv import load_dotenv
@@ -112,8 +113,11 @@ def query_summary_engine(original_text: str):
         "inputs": original_text,
         "parameters": {}
     }
-    response = req.post(API_URL, headers=headers, json=payload)
-    return response.json()
+    response = req.post(API_URL, headers=headers, json=payload) 
+    if response.status_code != 200:
+        raise Exception("Failed to query the summary engine")
+    data = response.json()
+    return data[0]["summary_text"]
 
 
 def query_claude(original_text: str) -> dict[str, list]:
