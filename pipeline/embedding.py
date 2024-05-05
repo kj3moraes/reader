@@ -88,9 +88,11 @@ df = pd.read_csv("./.data/topics-2.csv")
 df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
 
 # Embed all the blog posts 
+print("Embedding all the blog posts")
 embed_text(df)
 
 # # Embed the authors too with a special field in the metadata
+print("Embedding all the authors information")
 embed_authors(df)
 
 # query = "Friendship"

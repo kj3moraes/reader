@@ -147,26 +147,11 @@ function showNodePanel(node) {
   // panel.style.overflowY = "auto";
   panel.id = "nodePanel";
   panel.innerHTML = "<h1>" + node.data.title + "</h1>";
+  panel.innerHTML += "<h3>By " + node.data.author + "</h3>";
   if (node.data.topics) {
-    panel.innerHTML += "<h3>Topics: " + node.data.topics + "</h3>";
+    panel.innerHTML += "<h4>Topics discussed: " + node.data.topics + "</h4>";
   }
-  if (graph.getLinks(node.id)) { 
-    panel.innerHTML += `<h3>You might enjoy the work of :</h3>`;
-    var topMatch = document.createElement("div");
-    topMatch.style.display = "flex";
-    topMatch.style.flexDirection = "column";
-    topMatch.style.gap = "5px";
-    topMatch.style.marginBottom = "10px";
-    var link = graph.getLinks(node.id)[0];
-    var toNode = link.toId === node.id ? link.fromId : link.toId;
-    var toNodeData = graph.getNode(toNode).data;
-    topMatch.innerHTML = `<strong>${toNodeData.name}</strong>`;
-    topMatch.addEventListener("click", function () {
-      showNodeDetails(graph.getNode(toNode));
-    });
-    panel.appendChild(topMatch);
-  }
-
+  panel.innerHTML += `<h3>You might enjoy the work of :</h3>` + node.data.authors_interest;
   document.body.appendChild(panel);
 }
 
@@ -240,30 +225,19 @@ function rightFooter() {
   footer.style.marginRight = "20px";
   footer.style.fontFamily = "Geist, sans-serif";
   footer.style.fontSize = "11px";
-  footer.innerHTML =
-    "<p>Made with love at TreeHacks&nbsp; <a target='_blank' rel='noopener noreferrer' href='https://treehacks.com'><img src='favicon.ico' width='15px' height='15px'></a></p>";
-
-  const location = query.treehacks ? "index.html" : "index.html?treehacks=true";
-
-  footer.innerHTML += `<button onclick="window.location.href='${location}'" style="color:white;background:#201c1c;font-family:'Geist';border:none;padding:12px;cursor:pointer;float:right;">${
-    query.treehacks ? "See all data" : "See TreeHacks data"
-  }</button>`;
   document.body.appendChild(footer);
 }
 
-function searchByNameOrSchool(nodes, query) {
+function searchByTitleOrAuthor(nodes, query) {
   const resultIds = nodes
     .filter((node) => {
-      const nameMatch = node.data.name
+      const nameMatch = node.data.title
         .toLowerCase()
         .includes(query.toLowerCase());
-      const schoolMatch = node.data.school
+      const schoolMatch = node.data.author
         .toLowerCase()
         .includes(query.toLowerCase());
-      const interestMatch = node.data.interests
-        .toLowerCase()
-        .includes(query.toLowerCase());
-      return nameMatch || schoolMatch || interestMatch;
+      return nameMatch || schoolMatch;
     })
     .map((node) => node.id);
 
@@ -368,13 +342,13 @@ function showSearchBar() {
     resultsContainer.innerHTML = "";
 
     var query = input.value ? input.value : "Matthew";
-    var matchingIndexes = searchByNameOrSchool(nodes, query);
+    var matchingIndexes = searchByTitleOrAuthor(nodes, query);
 
     matchingIndexes.forEach((index) => {
       var node = nodes.find((node) => node.id === index);
       if (node) {
         var result = document.createElement("div");
-        result.innerHTML = `<strong>${node.data.name}</strong><br>${node.data.school}<br>`;
+        result.innerHTML = `<strong>${node.data.title}</strong>`;
         resultsContainer.appendChild(result);
         result.style.cursor = "pointer";
 
@@ -409,30 +383,6 @@ function intersect(from, to, r) {
     y: r * Math.sin(teta) * Math.sin(phi) + to.y,
     z: r * Math.cos(teta) + to.z,
   };
-}
-
-function flyTo(camera, to, radius) {
-  // if (!to || to.x === undefined || to.y === undefined || to.z === undefined) {
-  //   console.error('Invalid target position:', to);
-  //   return; // Exit if 'to' is not a valid object
-  // }
-
-  // var from = {
-  //   x: camera.position.x,
-  //   y: camera.position.y,
-  //   z: camera.position.z,
-  // };
-
-  // var cameraOffset = radius / Math.tan(Math.PI / 180.0 * camera.fov * 0.5);
-  // var cameraEndPos = intersect(from, to, cameraOffset);
-
-  // if (!cameraEndPos) {
-  //   console.error('Failed to calculate camera end position.');
-  //   return; // Exit if 'cameraEndPos' is undefined
-  // }
-
-  camera.position.set(0, 0, 0);
-  // camera.lookAt(new THREE.Vector3(to.x, to.y, to.z));
 }
 
 showSearchBar();
