@@ -225,6 +225,10 @@ function rightFooter() {
   footer.style.marginRight = "20px";
   footer.style.fontFamily = "Geist, sans-serif";
   footer.style.fontSize = "11px";
+  footer.innerHTML =
+  "<p><a color:#ffffff href='https://itskeane.info'><font color=\"white\">Made by Keane Moraes</font> </a></p>";
+  
+
   document.body.appendChild(footer);
 }
 
