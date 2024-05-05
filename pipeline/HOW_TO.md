@@ -18,7 +18,7 @@ This part of the code manages the data processing of files. Here
 
 The data is acquired by running the executable provided in `bin/`. This executable is built from [sbstck-dl](https://github.com/alexferrari88/sbstck-dl). I have forked it and made changes for adding author, post_date, title to the metadata.
 
-You can run the executable in the following manner 
+You can run the executable in the following manner
 
 ```bash
 sbstck-dl download --url <substack-url> -f "md" -o <output-dir>

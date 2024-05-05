@@ -4,7 +4,9 @@
 
 You can view it here - 
 
-I bloged about this project here - ![itskeane.info/blog/reader](https://www.itskeane.info/blog/reader)
+I built this project as an experiment and as something that could lead up to something I want. Essentially when I read blogs or posts on the internet and I really like them, I want to see more at that time. Yes, I know, I can follow the author and all but I want to know more authors writing about this stuff at that point in time.
+
+This experiment was born out of that. And since I'm doing a lot of ML stuff, I decided to experiment with topic modelling. You can check it all out on my devlog - [itskeane.info/blog/reader](https://www.itskeane.info/blog/reader)
 
 ## Building
 

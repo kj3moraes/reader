@@ -17,7 +17,7 @@ claude = anthropic.Client(
 )
 
 def prompt(text: str, system_prompt: str):
-    
+    text = "No works present" if text == "" else text 
     response = claude.messages.create(
         model="claude-3-sonnet-20240229",
         max_tokens=4096,
@@ -75,7 +75,9 @@ def embed_authors(df: pd.DataFrame):
             post_title = author_df["Title"][index]
             post_topics = literal_eval(author_df["Topics"][index])
             works.append(f"{author} talks about {post_topics[:6]} in their blog post {post_title}")
-    
+        # if there are no works to report on then no need to upsert.
+        if works == []:
+            continue 
         response = prompt('\n'.join(works), _prompt) 
         collection.upsert(
             ids=generate_hash(author),
@@ -89,7 +91,7 @@ df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
 
 # Embed all the blog posts 
 print("Embedding all the blog posts")
-embed_text(df)
+# embed_text(df)
 
 # # Embed the authors too with a special field in the metadata
 print("Embedding all the authors information")
