@@ -15,9 +15,7 @@ const TIME_STEP = 2;
 
 var createSettingsView = require("config.pixel");
 var query = require("query-string").parse(window.location.search.substring(1));
-const json = query.treehacks
-  ? require("./treehacksData.json")
-  : require("./graphData.json");
+const json = require("./graphData.json");
 var graph = getGraphFromQueryString(query);
 var renderGraph = require("ngraph.pixel");
 // var addCurrentNodeSettings = require("./nodeSettings.js");
@@ -148,24 +146,12 @@ function showNodePanel(node) {
   panel.style.maxHeight = "65%";
   // panel.style.overflowY = "auto";
   panel.id = "nodePanel";
-  panel.innerHTML = "<h1>" + node.data.name + "</h1>";
-  panel.innerHTML += "<h2>" + node.data.school + "</h2>";
-  if (node.data.major) {
-    panel.innerHTML += "<h3>Major: " + node.data.major + "</h3>";
+  panel.innerHTML = "<h1>" + node.data.title + "</h1>";
+  if (node.data.topics) {
+    panel.innerHTML += "<h3>Topics: " + node.data.topics + "</h3>";
   }
-
-  if (node.data.interests) {
-    panel.innerHTML += `<p><strong>Interests</strong>: ${node.data.interests}</p>`;
-  }
-
-  if (node.data.background) {
-    panel.innerHTML += `<p><strong>Background</strong>: ${node.data.background}</p>`;
-  }
-  if (graph.getLinks(node.id)) {
-    panel.innerHTML += `<p>Potential connections: ${
-      graph.getLinks(node.id).length
-    }</p>`;
-    panel.innerHTML += `<h3>Top match:</h3>`;
+  if (graph.getLinks(node.id)) { 
+    panel.innerHTML += `<h3>You might enjoy the work of :</h3>`;
     var topMatch = document.createElement("div");
     topMatch.style.display = "flex";
     topMatch.style.flexDirection = "column";
