@@ -45,9 +45,12 @@ for i, embedding in tqdm(enumerate(results["embeddings"]), total=len(results['em
     # Get the 5 nearest neighbors to the embedding
     # print(results["metadatas"][i])
     self_id = results["ids"][i]
-    self_title = results["metadatas"][i]["title"]
-    self_author = results["metadatas"][i]["author"] 
-    self_topics = literal_eval(results["metadatas"][i]["topics"])
+    try:
+        self_title = results["metadatas"][i]["title"]
+        self_author = results["metadatas"][i]["author"] 
+        self_topics = literal_eval(results["metadatas"][i]["topics"])
+    except:
+        continue
 
     query = collection.query(
         n_results=N_RESULTS,
