@@ -1,35 +1,54 @@
-<img width="1494" alt="image" src="https://github.com/freeman-jiang/nexus/assets/56516912/b8487775-27ab-430f-a0ad-5df827655b36">
+# Reader - 3D Semantic Graph of a subset of Substack blogs
 
-# Nexus - 3D semantic graph of hacker interests
+![preview](./media/ss.png)
 
-[Nexus](https://nexusgraph.vercel.app/) is a data visualization of hacker interests at TreeHacks, Hack the North, and Calhacks.
+You can view it here - 
 
-### Quickstart 
-```sh
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+I bloged about this project here - ![itskeane.info/blog/reader](https://www.itskeane.info/blog/reader)
+
+## Building
+
+This process occurs in 4 steps
+
+1. Acquiring data by scraping Substack
+2. Cleaning the data by cleaning all the markdown files
+3. Topic modelling on the data
+4. Embedding the topics and other metadata for each post
+5. Building the graph by querying the vector database
+6. Reading the graph and bundling it.
+
+For steps 1-5, refer to the [HOW_TO.md](./pipeline/HOW_TO.md) for details on how to acquire the data.
+
+### 6. Reading the graph
+
+This was mostly borrowed from [Nexus](https://github.com/freeman-jiang/nexus). I changed the stuff for accessing the nodes and how the panel displayed. When you finish steps 1-5, you should have a graphData.json file. This must be moved to the `frontend` folder.
+
+Then you can run the following the `frontend` folder
+
+```bash
+npm i
+npm run dev
 ```
 
-We use [Together AI](https://www.together.ai/) for inferencing and embeddings.
-Create a **.env** with
+This will build the `bundle.js` file and then you can view `index.html`. Any changes to index.js is then reflected.
 
-```sh
-# https://api.together.xyz/settings/api-keys
-TOGETHER_API_KEY="<your_api_key>"
+## Running
+
+To run this, you need to follow the steps above and then navigate to the frontend/ directory and then  
+
+```bash
+npm i
+npm run start
 ```
 
-Create a file called **messages-htn-calhacks.json** containing the scraped data.
-```json
-[
-  {
-    "Time": "1:47 PM",
-    "Name": "John Doe",
-    "String": "Hello everyone! My name is John and I'm a X year student from Y university. My background is in Z and I'm looking for ..."
-  },
-  ...
-]
-```
+This will generate a `bundle.js` and then you can open index.html in your favourite browser :).
 
-Run **main.py** then **build_graph.py**. Your graph will be in **graphData.json**
+__WARNING: This is no way meant to be production ready. I cooked this up in a weekend. Please don't take it too seriously__
 
+## References
+
+The code is majorly forked from [Nexus](https://github.com/freeman-jiang/nexus).
+
+- I made changes to the frontend for rendering.
+- I made changes to how the data is collected, stored, embedded and subsquently queried.
+- I reordered and deleted all the exiguous files.
