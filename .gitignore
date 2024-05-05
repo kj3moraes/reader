@@ -373,3 +373,4 @@ people.json
 
 **/data*
 **/pnpm-lock.yaml
+/.chroma*
