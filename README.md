@@ -2,7 +2,7 @@
 
 ![preview](./media/ss.png)
 
-You can view it here - 
+You can view it here - https://reader-sable.vercel.app/
 
 I built this project as an experiment and as something that could lead up to something I want. Essentially when I read blogs or posts on the internet and I really like them, I want to see more at that time. Yes, I know, I can follow the author and all but I want to know more authors writing about this stuff at that point in time.
 
