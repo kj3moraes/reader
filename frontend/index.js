@@ -175,7 +175,7 @@ function leftInstructions() {
   footer.style.position = "absolute";
   footer.style.bottom = "0";
   footer.style.left = "0";
-  footer.style.color = "grey";
+  footer.style.color = "white";
   footer.style.padding = "10px";
   footer.style.marginLeft = "20px";
   footer.style.fontFamily = "Geist, sans-serif";
@@ -195,7 +195,7 @@ function rightInstructions() {
   footer.style.position = "absolute";
   footer.style.bottom = "0";
   footer.style.left = "120px";
-  footer.style.color = "grey";
+  footer.style.color = "white";
   footer.style.padding = "10px";
   footer.style.marginLeft = "20px";
   footer.style.fontFamily = "Geist, sans-serif";
